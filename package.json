@@ -1,0 +1,17 @@
+{
+	"name": "tattletale",
+	"version": "0.0.1",
+	"description": "Twitch chat collector",
+	"dependencies": {
+		"winston": "*",
+		"restify": "*",
+		"irc-factory": "*",
+		"axon": "*",
+		"node-uuid": "*"
+	},
+	"bundleDependencies": [],
+	"repository": { 
+		"type": "git",
+		"url": ""
+	}
+}
