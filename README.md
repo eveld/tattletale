@@ -1,0 +1,2 @@
+# Tattletale
+Twitch chat collector

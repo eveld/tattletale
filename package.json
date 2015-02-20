@@ -4,10 +4,8 @@
 	"description": "Twitch chat collector",
 	"dependencies": {
 		"winston": "*",
-		"restify": "*",
 		"irc-factory": "*",
-		"axon": "*",
-		"node-uuid": "*"
+		"node-etcd": "*"
 	},
 	"bundleDependencies": [],
 	"repository": { 

@@ -1,0 +1,13 @@
+{
+	"USERCOLOR": "USERCOLOR",
+	"EMOTESET": "EMOTESET",
+	"SPECIALUSER": "SPECIALUSER",
+	"CLEARCHAT": "CLEARCHAT",
+	"HISTORYEND": "HISTORYEND",
+	"SUBONLY_ON": "This room is now in subscribers-only mode.",
+	"SUBONLY_OFF": "This room is no longer in subscribers-only mode.",
+	"SLOWMODE_ON": "This room is now in slow mode.",
+	"SLOWMODE_OFF": "This room is no longer in slow mode.",
+	"R9K_ON": "This room is now in r9k mode.",
+	"R9K_OFF": "This room is no longer in r9k mode."
+}

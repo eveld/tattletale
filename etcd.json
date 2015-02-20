@@ -1,0 +1,1 @@
+etcdctl set /services/tattletale/settings "{\"twitch\": {\"user\": \"botnics\",\"auth\": \"oauth:voy0mtsh0nxizt75igwdet7ectzhdi\",\"host\": \"irc.twitch.tv\",\"port\": 6667,\"client\": 3, \"channels\": [\"#swebliss\"]}}"
