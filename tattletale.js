@@ -28,12 +28,12 @@ Tattletale.prototype.fetchSettings = function() {
 		wait: false
 	};
 
-	etcd.get(location, options, function gotSettings(error, value) {
-		if (error) console.error(error);
+	// etcd.get(location, options, function gotSettings(error, value) {
+	// 	if (error) console.error(error);
 
-		var settings = JSON.parse(value.node.value);
-		console.log('settings: ', settings);
-	});
+	// 	var settings = JSON.parse(value.node.value);
+	// 	console.log('settings: ', settings);
+	// });
 };
 
 module.exports = Tattletale;
