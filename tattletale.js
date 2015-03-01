@@ -22,18 +22,19 @@ util.inherits(Tattletale, EventEmitter);
  * Fetch settings for this node from etcd.
  * @emit gotsettings
  */
-Tattletale.prototype.fetchSettings = function() {
+Tattletale.prototype.fetchSettings = function(callback) {
 	var location = path.join('/tattletale', 'settings');
 	var options = {
 		wait: false
 	};
 
-	// etcd.get(location, options, function gotSettings(error, value) {
-	// 	if (error) console.error(error);
-
-	// 	var settings = JSON.parse(value.node.value);
-	// 	console.log('settings: ', settings);
-	// });
+	etcd.get(location, options, function gotSettings(error, value) {
+		if (error) {
+			callback(error);
+		} else {
+			callback(null, JSON.parse(value.node.value));
+		}
+	});
 };
 
 module.exports = Tattletale;
