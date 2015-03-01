@@ -4,36 +4,45 @@ var Tattletale = require('../tattletale.js');
 var Bookkeeper = require('../bookkeeper.js');
 
 var sinon = require('sinon');
+var etcd = require('etcd');
 
-describe('When starting Tattletale', function() {
+describe('When fetching settings', function() {
 	var tattletale;
+	var mock;
+
+	var settings = {
+		action: 'get',
+		node: {
+			key: '/tattletale/settings',
+			value: '{}',
+			modifiedIndex: 0,
+			createdIndex: 0
+		}
+	};
 
 	before(function(done) {
 		tattletale = new Tattletale();
-		sinon.stub(tattletale, 'fetchSettings').yields(null, {
-			username: 'botnics'
-		});
+		mock = sinon.mock(etcd).expects('get').once().yields(null, settings);
 		done();
+	});
+
+	it('should call fetchSettings', function(done) {
+		tattletale.fetchSettings(function(error, settings) {
+			// Expect etcd.get to be called once.
+			mock.verify();
+
+			// Check if we got the expected data.
+			expect(error).to.be.null;
+			expect(settings).to.not.be.null;
+			expect(settings).to.be.an('object');
+
+			done();
+		});
 	});
 
 	after(function(done) {
-		tattletale.fetchSettings.restore();
+		etcd.get.restore();
 		done();
-	});
-
-	it('Should fetch settings from etcd', function(done) {
-		tattletale.fetchSettings(function(error, settings) {
-			if (error) {
-				return done(error);
-			} else {
-				expect(settings).to.not.be.empty;
-				done(null, settings);
-			}
-		});
-	});
-
-	it('Should start a bookkeeper', function() {
-
 	});
 });
 

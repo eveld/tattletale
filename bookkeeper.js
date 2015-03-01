@@ -1,9 +1,9 @@
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
-var Etcd = require('node-etcd');
+var Etcd = require('etcd');
 var bunyan = require('bunyan');
 
-var etcd = new Etcd(['192.168.1.118:4001']);
+var etcd = require('etcd');
 var channels = [];
 
 /**

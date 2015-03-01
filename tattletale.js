@@ -4,10 +4,10 @@
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var path = require('path');
-var Etcd = require('node-etcd');
+var Etcd = require('etcd');
 var bunyan = require('bunyan');
 
-var etcd = new Etcd(['192.168.1.118:4001']);
+var etcd = require('etcd');
 var settings;
 
 /**
@@ -24,11 +24,8 @@ util.inherits(Tattletale, EventEmitter);
  */
 Tattletale.prototype.fetchSettings = function(callback) {
 	var location = path.join('/tattletale', 'settings');
-	var options = {
-		wait: false
-	};
 
-	etcd.get(location, options, function gotSettings(error, value) {
+	etcd.get(location, function gotSettings(error, value) {
 		if (error) {
 			callback(error);
 		} else {
