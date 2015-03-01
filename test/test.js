@@ -6,9 +6,9 @@ var Bookkeeper = require('../bookkeeper.js');
 var sinon = require('sinon');
 var etcd = require('etcd');
 
-describe('When fetching settings', function() {
+describe('fetchSettings', function() {
 	var tattletale;
-	var mock;
+	var mockedEtcd;
 
 	var settings = {
 		action: 'get',
@@ -22,22 +22,27 @@ describe('When fetching settings', function() {
 
 	before(function(done) {
 		tattletale = new Tattletale();
-		mock = sinon.mock(etcd).expects('get').once().yields(null, settings);
+		stubbedEtcdGet = sinon.stub(etcd, 'get');
+		stubbedEtcdGet.onFirstCall().yields(null, settings);
+		stubbedEtcdGet.onSecondCall().yields(new Error());
 		done();
 	});
 
-	it('should call fetchSettings', function(done) {
-		tattletale.fetchSettings(function(error, settings) {
-			// Expect etcd.get to be called once.
-			mock.verify();
+	it('Should receive settings if everything went well and an error if something went wrong.', function(done) {
+		tattletale.fetchSettings();
 
-			// Check if we got the expected data.
-			expect(error).to.be.null;
+		tattletale.on('receivedSettings', function(settings) {
 			expect(settings).to.not.be.null;
 			expect(settings).to.be.an('object');
-
 			done();
 		});
+
+		tattletale.on('error', function(error) {
+			expect(error).to.not.be.null;
+			done();
+		});
+
+		done();
 	});
 
 	after(function(done) {
