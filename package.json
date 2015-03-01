@@ -1,0 +1,23 @@
+{
+  "name": "tattletale",
+  "version": "1.0.0",
+  "description": "Twitch chat collector",
+  "author": "techn9cs",
+  "main": "tattletale.js",
+  "scripts": {
+    "test": "mocha --require test/helpers/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:technics/tattletale.git"
+  },
+  "dependencies": {
+    "node-etcd": "^3.0.2",
+    "bunyan": "^1.3.4"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "chai": "^2.1.0",
+    "sinon": "^1.12.2"
+  }
+}
