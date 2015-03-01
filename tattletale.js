@@ -27,9 +27,9 @@ Tattletale.prototype.fetchSettings = function() {
 
 	etcd.get(location, function gotSettings(error, value) {
 		if (error) {
-			tattletale.emit('error', error);
+			tattletale.emit('settingsFailed', error);
 		} else {
-			tattletale.emit('receivedSettings', JSON.parse(value.node.value));
+			tattletale.emit('settingsReceived', JSON.parse(value.node.value));
 		}
 	});
 };

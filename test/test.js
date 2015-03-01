@@ -7,9 +7,6 @@ var sinon = require('sinon');
 var etcd = require('etcd');
 
 describe('fetchSettings', function() {
-	var tattletale;
-	var mockedEtcd;
-
 	var settings = {
 		action: 'get',
 		node: {
@@ -20,34 +17,60 @@ describe('fetchSettings', function() {
 		}
 	};
 
-	before(function(done) {
-		tattletale = new Tattletale();
-		stubbedEtcdGet = sinon.stub(etcd, 'get');
-		stubbedEtcdGet.onFirstCall().yields(null, settings);
-		stubbedEtcdGet.onSecondCall().yields(new Error());
-		done();
-	});
+	describe('on settingsReceived', function() {
+		var tattletale;
+		var mockedEtcd;
 
-	it('Should receive settings if everything went well and an error if something went wrong.', function(done) {
-		tattletale.fetchSettings();
-
-		tattletale.on('receivedSettings', function(settings) {
-			expect(settings).to.not.be.null;
-			expect(settings).to.be.an('object');
+		before(function(done) {
+			tattletale = new Tattletale();
+			mockedEtcd = sinon.mock(etcd).expects('get').once().yields(null, settings);
 			done();
 		});
 
-		tattletale.on('error', function(error) {
-			expect(error).to.not.be.null;
+		it('should return settings', function(done) {
+			tattletale.fetchSettings();
+			mockedEtcd.verify();
+
+			tattletale.on('settingsReceived', function onSettingsReceived(settings) {
+				expect(settings).to.not.be.null;
+				expect(settings).to.be.an.instanceOf(Object);
+			});
+
 			done();
 		});
 
-		done();
+		after(function(done) {
+			etcd.get.restore();
+			done();
+		});
 	});
 
-	after(function(done) {
-		etcd.get.restore();
-		done();
+	describe('on settingsFailed', function() {
+		var tattletale;
+		var mockedEtcd;
+
+		before(function(done) {
+			tattletale = new Tattletale();
+			mockedEtcd = sinon.mock(etcd).expects('get').once().yields(new Error());
+			done();
+		});
+
+		it('should return an error', function(done) {
+			tattletale.fetchSettings();
+			mockedEtcd.verify();
+
+			tattletale.on('settingsFailed', function onSettingsFailed(error) {
+				expect(error).to.not.be.null;
+				expect(error).to.be.an.instanceof(Error);
+			});
+
+			done();
+		});
+
+		after(function(done) {
+			etcd.get.restore();
+			done();
+		});
 	});
 });
 
