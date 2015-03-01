@@ -1,11 +1,13 @@
 /* jshint node: true */
 /* jshint expr: true */
 var Tattletale = require('../tattletale.js');
-var Bookkeeper = require('../bookkeeper.js');
 
 var sinon = require('sinon');
 var etcd = require('etcd');
 
+/**
+ * Test the fetching of settings.
+ */
 describe('fetchSettings', function() {
 	var settings = {
 		action: 'get',
@@ -17,7 +19,10 @@ describe('fetchSettings', function() {
 		}
 	};
 
-	describe('on settingsReceived', function() {
+	/**
+	 * Test the case where settings were correctly received.
+	 */
+	describe('on fetchSettingsReceived', function() {
 		var tattletale;
 		var mockedEtcd;
 
@@ -45,6 +50,9 @@ describe('fetchSettings', function() {
 		});
 	});
 
+	/**
+	 * Test the case where retrieving the settings failed.
+	 */
 	describe('on settingsFailed', function() {
 		var tattletale;
 		var mockedEtcd;
@@ -71,13 +79,5 @@ describe('fetchSettings', function() {
 			etcd.get.restore();
 			done();
 		});
-	});
-});
-
-describe('When starting Bookkeeper', function() {
-	var bookkeeper;
-
-	before(function() {
-		bookkeeper = new Bookkeeper();
 	});
 });

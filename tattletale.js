@@ -8,6 +8,10 @@ var Etcd = require('etcd');
 var bunyan = require('bunyan');
 
 var etcd = require('etcd');
+etcd.configure({
+	host: 'localhost',
+	port: 4001
+});
 
 /**
  * Tattletale collects messages from Twitch chat.
@@ -19,7 +23,16 @@ util.inherits(Tattletale, EventEmitter);
 
 /**
  * Fetch settings for this node from etcd.
- * @emit gotsettings
+ * @fires Tattletale#fetchSettingsFailed
+ * @fires Tattletale#fetchSettingsReceived
+ *
+ * @event Tattletale#fetchSettingsFailed
+ * @type {Object}
+ * @property {Error} error - The reason why retrieving the settings failed.
+ *
+ * @event Tattletale#fetchSettingsReceived
+ * @type {Object}
+ * @property {Object} settings - The settings for this node.
  */
 Tattletale.prototype.fetchSettings = function() {
 	var tattletale = this;
@@ -27,9 +40,9 @@ Tattletale.prototype.fetchSettings = function() {
 
 	etcd.get(location, function gotSettings(error, value) {
 		if (error) {
-			tattletale.emit('settingsFailed', error);
+			tattletale.emit('fetchSettingsFailed', error);
 		} else {
-			tattletale.emit('settingsReceived', JSON.parse(value.node.value));
+			tattletale.emit('fetchSettingsReceived', JSON.parse(value.node.value));
 		}
 	});
 };
