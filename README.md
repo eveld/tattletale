@@ -1,5 +1,6 @@
 # Tattletale
-<<<<<<< HEAD
-=======
 Twitch chat collector
->>>>>>> 12bdce412bf91fd75ace18ae31270fe8a08bb659
+
+[![Coverage Status](https://coveralls.io/repos/technics/tattletale/badge.svg?branch=master)](https://coveralls.io/r/technics/tattletale?branch=master)
+[![Coverage Status](https://travis-ci.org/technics/tattletale.svg?branch=master)](https://travis-ci.org/technics/tattletale.svg?branch=master)
+
